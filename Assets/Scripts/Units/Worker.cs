@@ -5,28 +5,28 @@ using UnityEngine;
 public class Worker : MonoBehaviour
 {
     [SerializeField]
-    private ResourceSource curResourceSource; //à»éÒËÁÒÂ·Õèà¢Ò¨Ð·Óàªè¹ µé¹äÁé·Õè¨ÐµÑ´ ·Í§·Õè¨Ð¢Ø´
+    private ResourceSource curResourceSource; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½Ò¨Ð·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÐµÑ´ ï¿½Í§ï¿½ï¿½ï¿½Ð¢Ø´
     public ResourceSource CurResourceSource { get { return curResourceSource; } set { curResourceSource = value; } }
 
     [SerializeField]
-    private float gatherRate = 0.5f; //¤ÇÒÁ¶Õè·Õèà¢Ò¨ÐµÑ´äÁé/¢Ø´·Í§ àªè¹ ·Ø¡  0.5 ÇÔ
+    private float gatherRate = 0.5f; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò¨ÐµÑ´ï¿½ï¿½ï¿½/ï¿½Ø´ï¿½Í§ ï¿½ï¿½ ï¿½Ø¡  0.5 ï¿½ï¿½
     [SerializeField]
-    private int gatherAmount = 1; // An amount unit can gather every "gatherRate" second(s)  //¨Ó¹Ç¹·Õè¨ÐµÑ´/¢Ø´ä´éã¹·Ø¡ gatherRate àªè¹ ·Ø¡ 0.5 ÇÔ ¿Ñ¹ 1 â»ê¡ ä´é 1 ÍÑ¹
+    private int gatherAmount = 1; // An amount unit can gather every "gatherRate" second(s)  //ï¿½Ó¹Ç¹ï¿½ï¿½ï¿½ÐµÑ´/ï¿½Ø´ï¿½ï¿½ã¹·Ø¡ gatherRate ï¿½ï¿½ ï¿½Ø¡ 0.5 ï¿½ï¿½ ï¿½Ñ¹ 1 ï¿½ï¿½ ï¿½ï¿½ 1 ï¿½Ñ¹
 
     [SerializeField]
-    private int amountCarry; //amount currently carried ¨Ó¹Ç¹äÁé·×è¶×ÍÍÂÙèã¹µÑÇ
+    private int amountCarry; //amount currently carried ï¿½Ó¹Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã¹µï¿½ï¿½
     public int AmountCarry { get { return amountCarry; } set { amountCarry = value; } }
 
     [SerializeField]
-    private int maxCarry = 25; //max amount to carry  ¨Ó¹Ç¹·Õè¶×Íä´éÊÙ§ÊØ´
+    private int maxCarry = 25; //max amount to carry  ï¿½Ó¹Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù§ï¿½Ø´
     public int MaxCarry { get { return maxCarry; } set { maxCarry = value; } }
 
     [SerializeField]
-    private ResourceType carryType; //¡ÓÅÑ§ carry ·ÃÑ¾ÂÒ¡Ã»ÃÐàÀ·äË¹ÍÂÙè
+    private ResourceType carryType; //ï¿½ï¿½ï¿½Ñ§ carry ï¿½ï¿½Ñ¾ï¿½Ò¡Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¹ï¿½ï¿½ï¿½ï¿½
     public ResourceType CarryType { get { return carryType; } set { carryType = value; } }
 
-    private float lastGatherTime;  //¨ÐÁÕ¡ÒÃ¤Ó¹Ç³ã¹ code¨ÐÍ¸ÔºÒÂÍÕ¡·Õ
-    private Unit unit; //script unit ·ÕèµéÍ§âËÅ´¤Ùè¡Ñ¹
+    private float lastGatherTime;  //ï¿½ï¿½ï¿½Õ¡ï¿½Ã¤Ó¹Ç³ï¿½ codeï¿½ï¿½Í¸Ôºï¿½ï¿½ï¿½Õ¡ï¿½ï¿½
+    private Unit unit; //script unit ï¿½ï¿½ï¿½ï¿½Í§ï¿½ï¿½Å´ï¿½ï¿½ï¿½Ñ¹
 
 
     // Start is called before the first frame update
@@ -74,6 +74,8 @@ public class Worker : MonoBehaviour
 
     private void MoveToResourceUpdate()
     {
+        CheckForResource();
+        
         if (Vector3.Distance(transform.position, unit.NavAgent.destination) <= 2f)
         {
             if (curResourceSource != null)
@@ -87,23 +89,27 @@ public class Worker : MonoBehaviour
 
     private void GatherUpdate()
     {
-        //¶éÒàÇÅÒ·Õè´Óà¹Ô¹¼èÒ¹ä» Åº¡Ñº àÇÅÒ·ÕèµÑ´äÁé¡èÍ¹Ë¹éÒ¹Õé  ÁÒ¡¡ÇèÒ ÍÑµÃÒ¤ÇÒÁ¶Õèã¹¡ÒÃµÑ´äÁé (=0.5ÇÔ)        
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò·ï¿½ï¿½ï¿½ï¿½Ô¹ï¿½ï¿½Ò¹ï¿½ Åºï¿½Ñº ï¿½ï¿½ï¿½Ò·ï¿½ï¿½Ñ´ï¿½ï¿½ï¿½ï¿½Í¹Ë¹ï¿½Ò¹ï¿½ï¿½  ï¿½Ò¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ñµï¿½Ò¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã¹¡ï¿½ÃµÑ´ï¿½ï¿½ï¿½ (=0.5ï¿½ï¿½)        
         if (Time.time - lastGatherTime > gatherRate)
         {
-            lastGatherTime = Time.time; //ãËéà«éµµÑÇá»Ã à»ç¹àÇÅÒ¤ÃÑé§ÊØ´·éÒÂ·ÕèµÑ´¨Öê¡
+            lastGatherTime = Time.time; //ï¿½ï¿½ï¿½ï¿½éµµï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò¤ï¿½ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½Â·ï¿½ï¿½Ñ´ï¿½ï¿½ï¿½
 
-            //àÃÔèÁ¡ÒÃµÑ´
-            if (amountCarry < maxCarry) //¶éÒ»ÃÔÁÒ³¢Í·Õè¶×ÍÍÂÙèã¹Á×Í ÂÑ§äÁèà¡Ô¹ max·Õè¶×Íä´é
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÃµÑ´
+            if (amountCarry < maxCarry) //ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ò³ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½Ô¹ maxï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             {
-                if (curResourceSource != null) //¶éÒµé¹äÁéÂÑ§ÍÂÙè ¤èÍÂµÑ´
+                if (curResourceSource != null) //ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÂµÑ´
                 {
                     curResourceSource.GatherResource(gatherAmount);
 
                     carryType = curResourceSource.RsrcType;
-                    amountCarry += gatherAmount; //¶×Íà¾ÔèÁµÒÁ¨Ó¹Ç¹·ÕèµÑ´à¾ÔèÁ
+                    amountCarry += gatherAmount; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¹Ç¹ï¿½ï¿½ï¿½Ñ´ï¿½ï¿½ï¿½ï¿½
+                }
+                else
+                {
+                    CheckForResource();
                 }
             }
-            else //amount is full, go back to deliver at HQ  ¶éÒàµçÁÁ×ÍáÅéÇ
+            else //amount is full, go back to deliver at HQ  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 unit.SetState(UnitState.DeliverToHQ);
         }
     }
@@ -124,15 +130,37 @@ public class Worker : MonoBehaviour
 
     private void StoreAtHQUpdate()
     {
-        unit.LookAt(unit.Faction.GetHQSpawnPos());  //ËÑ¹ä»ÁÍ§
+        unit.LookAt(unit.Faction.GetHQSpawnPos());  //ï¿½Ñ¹ï¿½ï¿½Í§
 
-        if (amountCarry > 0) //¶éÒÁÕ¢Í§ãËéÊè§
+        if (amountCarry > 0) //ï¿½ï¿½ï¿½ï¿½Õ¢Í§ï¿½ï¿½ï¿½ï¿½ï¿½
         {
             // Deliver the resource to Faction
             unit.Faction.GainResource(carryType, amountCarry);
-            amountCarry = 0; //Êè§àÊÃç¨áÅéÇ ãËé¢Í§ã¹Á×Íà»ç¹ 0
+            amountCarry = 0; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0
 
             //Debug.Log("Delivered");
+        }
+        
+        CheckForResource();
+    }
+
+    private void CheckForResource()
+    {
+        if (curResourceSource != null) //that resource still exists
+            ToGatherResource(curResourceSource, curResourceSource.transform.position);
+        else
+        {
+            //try to find a new resource
+            curResourceSource = unit.Faction.GetClosestResource(transform.position, carryType);
+
+            //CheckAgain, if found a new one, go to it
+            if (curResourceSource != null)
+                ToGatherResource(curResourceSource, curResourceSource.transform.position);
+            else //can't find a new one
+            {
+                Debug.Log($"{unit.name} can't find a new tree");
+                unit.SetState(UnitState.Idle);
+            }
         }
     }
 

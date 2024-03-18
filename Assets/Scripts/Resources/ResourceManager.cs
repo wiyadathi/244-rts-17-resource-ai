@@ -9,11 +9,13 @@ public class ResourceManager : MonoBehaviour
 
     [SerializeField]
     private Transform woodTreeParent;
-    //สร้าง parent เพื่อให้เมื่อสร้างต้นไม้ในซีนเยอะ ๆ ต้นไมลูกจะมาเกาะ parent นี้ เพื่อไม่ให้รกซีน
+    //๏ฟฝ๏ฟฝ๏ฟฝาง parent ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝาง๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝในซีน๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ ๏ฟฝ ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝูก๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ parent ๏ฟฝ๏ฟฝ๏ฟฝ ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝรก๏ฟฝีน
 
     [SerializeField]
-    private ResourceSource[] resources; //เก็บ resources ทุกอย่างในซีน
+    private ResourceSource[] resources; //๏ฟฝ๏ฟฝ resources ๏ฟฝุก๏ฟฝ๏ฟฝ๏ฟฝางในซีน
+    public ResourceSource[] Resources {get { return resources; } }
 
+ 
     public static ResourceManager instance;
 
     void Awake()
