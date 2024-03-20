@@ -25,9 +25,11 @@ public class ResourceSource : MonoBehaviour
     [SerializeField] private int quantity;
     public int Quantity { get { return quantity; } set { quantity = value; } }
 
-    [SerializeField] private int maxQuantity; //¨Ó¹Ç¹ÊÙ§ÊØ´¢Í§ resource ·ÕèÁÕã¹à¡Á àªè¹ ÁÕµé¹äÁé 100 µé¹ ¶Ù¡µÑ´ä»áÅéÇà·èÒäËÃè  0 ¤×ÍËÁ´ µé¹äÁé¡çËÒÂä»
+    [SerializeField] private int maxQuantity; //
+    public int MaxQuantity { get { return maxQuantity; } }
 
-    [SerializeField] private GameObject selectionVisual; //ring áÊ´§àÁ×èÍàÅ×Í¡µé¹äÁé
+
+    [SerializeField] private GameObject selectionVisual; //ring ï¿½Ê´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¡ï¿½ï¿½ï¿½ï¿½ï¿½
     public GameObject SelectionVisual { get { return selectionVisual; } } //Selection Ring
     [SerializeField]
     private UnityEvent onRsrcQuantityChange;
@@ -58,21 +60,21 @@ public class ResourceSource : MonoBehaviour
         int amountToGive;
 
         // make sure we don't give more than we have
-        if (amountRequest > quantity) //not enough ¢Í§·ÕèÁÕäÁè¾Í
+        if (amountRequest > quantity) //not enough ï¿½Í§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             amountToGive = quantity;
-        else //enough ÁÕ¾ÍãËé
+        else //enough ï¿½Õ¾ï¿½ï¿½ï¿½ï¿½
             amountToGive = amountRequest;
 
         quantity -= amountToGive;
 
         // if we're depleted, delete the resource
-        if (quantity <= 0)    //¢Í§ËÁ´ ·ÓÅÒÂ·Ôé§
+        if (quantity <= 0)    //ï¿½Í§ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
         {
             Destroy(gameObject);
         }
     }
 
-    // toggles green selection ring around resource  à»Ô´»Ô´Ç§áËÇ¹
+    // toggles green selection ring around resource  ï¿½Ô´ï¿½Ô´Ç§ï¿½ï¿½Ç¹
     public void ToggleSelectionVisual(bool selected)
     {
         if (SelectionVisual != null)
